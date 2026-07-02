@@ -1,0 +1,55 @@
+
+# ------- Dependencies -------
+# Kita install fresh di dalam Docker (npm ci),
+# jadi node_modules lokal tidak perlu di-copy
+node_modules
+
+# ------- Build output -------
+# Kita build ulang di dalam Docker (npm run build),
+# jadi hasil build lokal tidak perlu di-copy
+.next
+
+# ------- Git -------
+# Data Git tidak diperlukan di dalam image
+# (riwayat commit, branch info, dll.)
+.git
+.gitignore
+
+# ------- Docker files -------
+# File Docker itu sendiri tidak perlu masuk ke image
+# (mereka hanya instruksi untuk MEMBUAT image)
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# ------- CI/CD -------
+# Config CI/CD hanya dipakai oleh GitLab, bukan oleh app
+.gitlab-ci.yml
+
+# ------- Documentation -------
+# Dokumentasi tidak diperlukan untuk menjalankan app
+README.md
+LICENSE
+
+# ------- AI Agent Config -------
+# File config AI assistant, tidak relevan untuk app
+AGENTS.md
+CLAUDE.md
+
+# ------- IDE & Editor -------
+# Konfigurasi editor tidak diperlukan di dalam image
+.vscode
+.idea
+*.swp
+
+# ------- OS Files -------
+# File system dari macOS/Windows, tidak diperlukan
+.DS_Store
+Thumbs.db
+
+# ------- Environment -------
+# PENTING: Jangan masukkan .env ke image!
+# Secret harus di-pass via environment variable saat runtime
+# (docker run -e atau docker-compose environment)
+.env
+.env.*
