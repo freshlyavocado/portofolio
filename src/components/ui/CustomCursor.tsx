@@ -1,15 +1,24 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect } from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 
 export function CustomCursor() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [hoverState, setHoverState] = useState<"default" | "link" | "text">("default");
+  const cursorX = useMotionValue(0);
+  const cursorY = useMotionValue(0);
+  const scale = useMotionValue(1);
+  const opacity = useMotionValue(1);
+
+  const springConfig = { stiffness: 500, damping: 28, mass: 0.5 };
+  const x = useSpring(cursorX, springConfig);
+  const y = useSpring(cursorY, springConfig);
+  const springScale = useSpring(scale, springConfig);
+  const springOpacity = useSpring(opacity, springConfig);
 
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+      cursorX.set(e.clientX - 12);
+      cursorY.set(e.clientY - 12);
     };
 
     const handleMouseOver = (e: MouseEvent) => {
@@ -20,14 +29,17 @@ export function CustomCursor() {
         target.closest("a") ||
         target.closest("button")
       ) {
-        setHoverState("link");
+        scale.set(2.5);
+        opacity.set(1);
       } else if (
         target.tagName.toLowerCase() === "h1" ||
         target.tagName.toLowerCase() === "h2"
       ) {
-        setHoverState("text");
+        scale.set(4);
+        opacity.set(0.1);
       } else {
-        setHoverState("default");
+        scale.set(1);
+        opacity.set(1);
       }
     };
 
@@ -38,42 +50,17 @@ export function CustomCursor() {
       window.removeEventListener("mousemove", updateMousePosition);
       window.removeEventListener("mouseover", handleMouseOver);
     };
-  }, []);
-
-    const variants = {
-      default: {
-        x: mousePosition.x - 12,
-        y: mousePosition.y - 12,
-        scale: 1,
-        opacity: 1,
-        backgroundColor: "#ffffff",
-      },
-      link: {
-        x: mousePosition.x - 12,
-        y: mousePosition.y - 12,
-        scale: 2.5,
-        opacity: 1,
-        backgroundColor: "#ffffff",
-      },
-      text: {
-        x: mousePosition.x - 40,
-        y: mousePosition.y - 40,
-        scale: 4,
-        opacity: 0.1,
-        backgroundColor: "#ffffff",
-      }
-    };
+  }, [cursorX, cursorY, scale, opacity]);
 
   return (
     <motion.div
       className="fixed top-0 left-0 w-6 h-6 rounded-full pointer-events-none z-[100] mix-blend-difference hidden md:block"
-      animate={hoverState}
-      variants={variants}
-      transition={{
-        type: "spring",
-        stiffness: 500,
-        damping: 28,
-        mass: 0.5,
+      style={{
+        x,
+        y,
+        scale: springScale,
+        opacity: springOpacity,
+        backgroundColor: "#ffffff",
       }}
     />
   );

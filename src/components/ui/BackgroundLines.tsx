@@ -30,7 +30,7 @@ export function BackgroundLines() {
             fill="none" 
           >
             <path 
-              stroke="#CCFF00"
+              stroke="var(--foreground)"
               strokeWidth="40"
               vectorEffect="non-scaling-stroke"
               d="M 10 -20 C 40 20, -10 40, 20 60 C 50 80, -20 95, 30 107" 

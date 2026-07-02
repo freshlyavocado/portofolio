@@ -1,23 +1,25 @@
 "use client";
 
-import { motion, useSpring } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
+import { useEffect } from "react";
 
 export function InteractiveBlob() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const springConfig = { damping: 25, stiffness: 120, mass: 0.5 };
+  const x = useSpring(mouseX, springConfig);
+  const y = useSpring(mouseY, springConfig);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+      mouseX.set(e.clientX - 200);
+      mouseY.set(e.clientY - 200);
     };
 
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
-
-  const springConfig = { damping: 25, stiffness: 120, mass: 0.5 };
-  const x = useSpring(mousePosition.x - 200, springConfig);
-  const y = useSpring(mousePosition.y - 200, springConfig);
+  }, [mouseX, mouseY]);
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none z-[-1] flex items-center justify-center">

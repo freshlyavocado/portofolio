@@ -1,4 +1,10 @@
+import type { Metadata } from "next";
 import { Works } from "@/components/sections/Works";
+
+export const metadata: Metadata = {
+  title: "Works",
+  description: "Selected DevOps projects by Fatih Aziz — Kubernetes clusters, CI/CD pipelines, monitoring stacks, and serverless deployments.",
+};
 
 export default function WorksPage() {
   return (

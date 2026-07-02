@@ -78,7 +78,7 @@ export function MenuDrawer() {
                 className="absolute bottom-12 left-12"
               >
                 <p className="text-xs font-medium text-foreground/30 uppercase tracking-widest">
-                  © {new Date().getFullYear()} My Portfolio
+                  © {new Date().getFullYear()} Fatih
                 </p>
               </motion.div>
             </motion.div>

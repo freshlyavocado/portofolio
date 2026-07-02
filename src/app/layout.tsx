@@ -11,8 +11,11 @@ import { LiveClock } from "@/components/ui/LiveClock";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Portfolio | Minimalist",
-  description: "A modern, minimalist typographic portfolio.",
+  title: {
+    default: "Fatih Aziz — Junior DevOps Engineer",
+    template: "%s | Fatih Aziz",
+  },
+  description: "Junior DevOps Engineer & CS student specializing in Kubernetes, CI/CD pipelines, cloud infrastructure, and automation. Based in Yogyakarta, Indonesia.",
 };
 
 export default function RootLayout({
